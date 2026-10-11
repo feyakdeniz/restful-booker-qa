@@ -1,0 +1,45 @@
+name: API tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:       # run manually from the Actions tab
+  schedule:
+    - cron: "0 6 * * *"    # nightly regression run, 06:00 UTC
+
+jobs:
+  pytest:
+    name: Python + pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -v --junitxml=report.xml
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: report.xml
+
+  postman:
+    name: Postman collection (Newman)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Postman collection
+        run: npx --yes newman run postman/Restful-Booker_Tests.postman_collection.json
