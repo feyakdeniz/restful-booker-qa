@@ -1,5 +1,7 @@
 # Restful-Booker API Testing
 
+[![API tests](https://github.com/feyakdeniz/restful-booker-qa/actions/workflows/api-tests.yml/badge.svg)](https://github.com/feyakdeniz/restful-booker-qa/actions/workflows/api-tests.yml)
+
 API testing project for [Restful-Booker](https://restful-booker.herokuapp.com), a public hotel booking API built for testers to practise on.
 
 **Author:** Feyzanur Akdeniz
